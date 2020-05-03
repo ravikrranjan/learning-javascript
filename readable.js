@@ -23,3 +23,12 @@ const inStream = new Readable({
 })
 inStream.currentCharCode = 65;
 inStream.pipe(process.stdout);
+
+
+process.on('exit', () => {
+    console.error(
+        `\n\ncurrentCharCode is ${inStream.currentCharCode}`
+    );
+
+});
+process.stdout.on('error', process.exit);
