@@ -32,3 +32,5 @@ process.on('exit', () => {
 
 });
 process.stdout.on('error', process.exit);
+
+// run : node readable.js | head -c3
