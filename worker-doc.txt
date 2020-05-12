@@ -1,0 +1,3 @@
+https://dev.to/zakhenry/observable-webworkers-with-angular-8-4k6
+
+https://itnext.io/achieving-parallelism-in-javascript-using-web-workers-8f921f2d26db
