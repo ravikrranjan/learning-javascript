@@ -1,0 +1,11 @@
+{
+    "scripts": {
+        "buildEs5": "babel ./src/bitpacker.js > ./build/bitpacker.js",
+        "buildMin": "babel ./src/bitpacker.js | uglifyjs --screw-ie8 --compress unsafe,keep_fargs=false --mangle -- > ./build/bitpacker.min.js",
+        "build": "npm run buildEs5 && npm run buildMin",
+        "publish": "sh ./publish.sh",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    }
+
+
+}
