@@ -18,17 +18,18 @@ app.get('/post', async (req, res) => {
 
     try {
 
-        // var params = {
-        //     Bucket: 'zax-file-data',
-        //     Key: 'big-1mb.file'
-        // }
-        // var s3file = await s3.getObject(params).promise();
-        // console.log(s3file.Body);
+        var params = {
+            Bucket: 'zax-file-data',
+            Key: 'big-1mb.file'
+        }
+        s3.getObject(params).createReadStream().pipe(res);
+        // console.log(s3file.Body);//
 
         // res.send(s3file.Body)
         // const file = fs.createReadStream('../big.file')
         // file.pipe(res);
-        getChildMessage(res);
+
+        // getChildMessage(res);
 
     } catch (err) {
         res.send(`errr : ${err}`)
@@ -45,12 +46,14 @@ async function getChildMessage(res) {
     child.send({
         "data": "Parent message"
     });
+    child.stdout.createReadStream().pipe(res)
+    // child.createReadStream().pipe(res);
     // res.send('---call s3--started')
-    child.on("message", async (total) => {
-        console.log(`\n---child message-`);
-        // res.send(total)
-        res.send(total)
-    });
+    // child.on("message", async (total) => {
+    //     console.log(`\n---child message-`);
+    //     // res.send(total)
+    //     res.send(total)
+    // });
 }
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))

@@ -17,10 +17,12 @@ process.on("message", async (parent_data) => {
         Bucket: 'zax-file-data',
         Key: 'big-1mb.file'
     }
-    const s3file = await s3.getObject(params).promise();
-    console.log('---s3-resonse');
-    process.send(
-        s3file.Body
-    )
+    // const s3file = await s3.getObject(params).promise();
+
+    s3.getObject(params).createReadStream().pipe(process.stdout)
+    // console.log('---s3-resonse');
+    // process.send(
+    //     s3file.Body
+    // )
 
 });
