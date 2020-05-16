@@ -23,6 +23,7 @@ app.get('/post', async (req, res) => {
             Key: 'big-1mb.file'
         }
         s3.getObject(params).createReadStream().pipe(res);
+        fs.writeFileSync(filePath, data.Body.toString());
         // console.log(s3file.Body);//
 
         // res.send(s3file.Body)
