@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser')
 const fs = require("fs");
 const app = express()
 const port = 3000;
@@ -11,26 +12,194 @@ const s3 = new AWS.S3();
 
 app.use(cors())
 
+
+app.use(bodyParser.json()) // for parsing application/json
+app.use(bodyParser.urlencoded({
+    extended: true
+})) //
+
 app.get('/', (req, res) => res.send('Hello World!'))
 
-app.get('/post', async (req, res) => {
+app.get('/post', (req, res) => {
+    console.log('---req.body--', req.query.id, req.params, new Date());
     // res.send('Get Post!')
+    let {
+        id
+    } = req.query;
+
+
+    if (!id) {
+        res.status(200).end()
+        return;
+    }
+    console.log(id);
 
     try {
 
+        console.log(id);
+
         var params = {
             Bucket: 'zax-file-data',
-            Key: 'big-1mb.file'
+            // Key: 'big-700KB'
+            Key: `big_${id}`
         }
-        s3.getObject(params).createReadStream().pipe(res);
-        fs.writeFileSync(filePath, data.Body.toString());
+
+        // var file = fs.createWriteStream(`file__${i}.jpg`);
+        // setTimeout(() => {
+        let s3Stream = s3.getObject(params).createReadStream();
+        // s3Stream.pipe(file);
+        // fs.writeFileSync(filePath, data.Body.toString());
         // console.log(s3file.Body);//
 
         // res.send(s3file.Body)
-        // const file = fs.createReadStream('../big.file')
-        // file.pipe(res);
-
+        res.attachment(`big_${id}`);
+        // const file2 = fs.createReadStream(`file__${i}.jpg`)
+        s3Stream.pipe(res);
+        // }, 2000);
         // getChildMessage(res);
+
+        // res.status(200).end();
+
+    } catch (err) {
+        res.send(`errr : ${err}`)
+    }
+
+
+})
+
+app.get('/post', (req, res) => {
+    console.log('---req.body--', req.query.id, req.params, new Date());
+    // res.send('Get Post!')
+    let {
+        id
+    } = req.query;
+
+
+    if (!id) {
+        res.status(200).end()
+        return;
+    }
+    console.log(id);
+
+    try {
+
+        console.log(id);
+
+        var params = {
+            Bucket: 'zax-file-data',
+            // Key: 'big-700KB'
+            Key: `big_${id}`
+        }
+
+        // var file = fs.createWriteStream(`file__${i}.jpg`);
+        // setTimeout(() => {
+        let s3Stream = s3.getObject(params).createReadStream();
+        // s3Stream.pipe(file);
+        // fs.writeFileSync(filePath, data.Body.toString());
+        // console.log(s3file.Body);//
+
+        // res.send(s3file.Body)
+        res.attachment(`big_${id}`);
+        // const file2 = fs.createReadStream(`file__${i}.jpg`)
+        s3Stream.pipe(res);
+        // }, 2000);
+        // getChildMessage(res);
+
+        // res.status(200).end();
+
+    } catch (err) {
+        res.send(`errr : ${err}`)
+    }
+
+
+})
+
+app.get('/post2', (req, res) => {
+    console.log('---req.body--', req.query.id, req.params, new Date());
+    // res.send('Get Post!')
+    let {
+        id
+    } = req.query;
+
+
+    if (!id) {
+        res.status(200).end()
+        return;
+    }
+    console.log(id);
+
+    try {
+
+        console.log(id);
+
+        var params = {
+            Bucket: 'zax-file-data',
+            // Key: 'big-700KB'
+            Key: `big_${id}`
+        }
+
+        // var file = fs.createWriteStream(`file__${i}.jpg`);
+        // setTimeout(() => {
+        let s3Stream = s3.getObject(params).createReadStream();
+        // s3Stream.pipe(file);
+        // fs.writeFileSync(filePath, data.Body.toString());
+        // console.log(s3file.Body);//
+
+        // res.send(s3file.Body)
+        res.attachment(`big_${id}`);
+        // const file2 = fs.createReadStream(`file__${i}.jpg`)
+        s3Stream.pipe(res);
+        // }, 2000);
+        // getChildMessage(res);
+
+        // res.status(200).end();
+
+    } catch (err) {
+        res.send(`errr : ${err}`)
+    }
+
+
+})
+
+app.get('/post1', (req, res) => {
+    console.log('---req.body--', req.query.id, req.params, new Date());
+    // res.send('Get Post!')
+    let {
+        id
+    } = req.query;
+
+
+    if (!id) {
+        res.status(200).end()
+        return;
+    }
+    console.log(id);
+
+    try {
+
+        console.log(id);
+
+        var params = {
+            Bucket: 'zax-file-data',
+            // Key: 'big-700KB'
+            Key: `big_${id}`
+        }
+
+        // var file = fs.createWriteStream(`file__${i}.jpg`);
+        // setTimeout(() => {
+        let s3Stream = s3.getObject(params).createReadStream();
+        // s3Stream.pipe(file);
+        // fs.writeFileSync(filePath, data.Body.toString());
+        // console.log(s3file.Body);//
+
+        // res.send(s3file.Body)
+        res.attachment(`big_${id}`);
+        // const file2 = fs.createReadStream(`file__${i}.jpg`)
+        s3Stream.pipe(res);
+        // }, 2000);
+        // getChildMessage(res);
+
+        // res.status(200).end();
 
     } catch (err) {
         res.send(`errr : ${err}`)
