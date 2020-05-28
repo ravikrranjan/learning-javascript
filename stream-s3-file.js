@@ -5,6 +5,9 @@ const {
     exec
 } = require('child_process');
 
+const util = require('util');
+const execPromisify = util.promisify(exec);
+
 const s3 = new AWS.S3();
 
 const bucket = "test-1213445"; // always use lowercase
@@ -46,8 +49,19 @@ class BucketOperation {
             console.error(`stderr: ${stderr}`);
         });
     }
+
+
+
+    async lsBucket() {
+        const {
+            stdout,
+            stderr
+        } = await execPromisify("aws s3 ls s3://zax-file-data | awk '{$1=$2=$3=\"\"; print $0}' | sed 's/^[ \t]*//'");
+        console.log(`\n stdout:`, stdout);
+        console.error(`\nstderr:`, stderr);
+    }
 }
 
 let instance = new BucketOperation();
 
-instance.syncS3Folder();
+instance.lsBucket();
