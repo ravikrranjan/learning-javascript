@@ -1,6 +1,9 @@
 const AWS = require('aws-sdk');
 const fs = require('fs');
 const path = require('path');
+const {
+    exec
+} = require('child_process');
 
 const s3 = new AWS.S3();
 
@@ -30,6 +33,21 @@ class BucketOperation {
             console.log(`\n Error: readStream- `, err);
 
         })
+    }
 
+    awsChildOperation() {
+
+        exec('aws s3 ls s3://zax-file-data', (error, stdout, stderr) => {
+            if (error) {
+                console.error(`exec error: ${error}`);
+                return;
+            }
+            console.log(`stdout: ${stdout}`);
+            console.error(`stderr: ${stderr}`);
+        });
     }
 }
+
+let instance = new BucketOperation();
+
+instance.syncS3Folder();
