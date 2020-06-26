@@ -16,7 +16,7 @@ const getLambdaDocs = () => {
 
 exports.handler = async (event) => {
     console.log(`\n handler: ---`)
-    console.log(`\n ENV: ---`, process.env)
+    console.log(`\n ENV: ---`, process.env.REGION)
     let lambdaDocs = await getLambdaDocs();
 
     console.log(`\n lambdaDocs: `, lambdaDocs)
